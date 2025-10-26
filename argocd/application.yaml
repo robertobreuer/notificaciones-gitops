@@ -9,7 +9,7 @@ spec:
   # DÓNDE está tu configuración (este repo)
   source:
     repoURL: https://github.com/robertobreuer/notificaciones-gitops.git
-    targetRevision: main
+    targetRevision: master
     path: helm-charts/notificaciones
   
   # DÓNDE desplegar (en qué cluster y namespace)
