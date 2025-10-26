@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: robertobreuer/notificaciones
-  tag: latest
+  tag: 5b6c1a5
   pullPolicy: Always
 
 service:
