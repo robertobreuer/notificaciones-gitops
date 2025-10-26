@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notificaciones
+  labels:
+    app: notificaciones
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: notificaciones
+  template:
+    metadata:
+      labels:
+        app: notificaciones
+    spec:
+      containers:
+      - name: notificaciones
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.service.targetPort }}
+        
+        # Health checks (para que K8s sepa si la app está ok)
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 10
+        
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 5
+        
+        # Límites de recursos
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}

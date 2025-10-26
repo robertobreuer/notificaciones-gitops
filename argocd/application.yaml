@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: notificaciones
+  namespace: argocd
+spec:
+  project: default
+  
+  # DÓNDE está tu configuración (este repo)
+  source:
+    repoURL: https://github.com/robertobreuer/notificaciones-gitops.git
+    targetRevision: main
+    path: helm-charts/notificaciones
+  
+  # DÓNDE desplegar (en qué cluster y namespace)
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  
+  # Sincronización automática
+  syncPolicy:
+    automated:
+      prune: true      # Eliminar recursos viejos
+      selfHeal: true   # Revertir cambios manuales
+    syncOptions:
+      - CreateNamespace=true
